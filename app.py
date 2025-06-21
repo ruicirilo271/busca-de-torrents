@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-API_URL = 'https://testbay.onrender.com//api/v1/search'  # Ou a tua API URL real
+API_URL = 'https://testbay.onrender.com/api/v1/search'  # Ou a tua API URL real
 TMDB_API_KEY = '516adf1e1567058f8ecbf30bf2eb9378'  # A tua chave TMDB
 
 def get_poster_url(title):
