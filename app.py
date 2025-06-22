@@ -3,16 +3,13 @@ import requests
 
 app = Flask(__name__)
 
-API_URL = 'https://testbay.onrender.com/api/v1/search'  # Ou a tua API URL real
-TMDB_API_KEY = '516adf1e1567058f8ecbf30bf2eb9378'  # A tua chave TMDB
+API_URL = 'https://testbay.onrender.com/api/v1/search'
+TMDB_API_KEY = '516adf1e1567058f8ecbf30bf2eb9378'
 
 def get_poster_url(title):
     try:
         url = "https://api.themoviedb.org/3/search/movie"
-        params = {
-            "api_key": TMDB_API_KEY,
-            "query": title
-        }
+        params = {"api_key": TMDB_API_KEY, "query": title}
         response = requests.get(url, params=params)
         data = response.json()
         if data.get('results'):
@@ -21,7 +18,7 @@ def get_poster_url(title):
                 return f"https://image.tmdb.org/t/p/w300{poster_path}"
     except:
         pass
-    return "/static/default.jpg"  # fallback
+    return "/static/default.jpg"
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -30,7 +27,7 @@ def index():
     if request.method == 'POST':
         searched = True
         query = request.form['query']
-        data = {'search_term': query}  # CORRETO aqui!
+        data = {'search_term': query}
         try:
             response = requests.post(API_URL, json=data)
             if response.ok:

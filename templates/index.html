@@ -4,33 +4,44 @@
     <meta charset="UTF-8">
     <title>🔍 Busca de Torrents (CleanBay)</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <h1>🔍 Busca de Torrents</h1>
-    <form method="post">
-        <input type="text" name="query" placeholder="Nome do filme ou série..." required>
-        <button type="submit">Pesquisar</button>
-    </form>
+    <div class="container">
+        <h1>🔍 Busca de Torrents</h1>
+        <form method="post" id="search-form">
+            <input type="text" name="query" placeholder="Nome do filme ou série..." required>
+            <button type="submit">Pesquisar</button>
+        </form>
 
-    {% if searched %}
-        {% if results %}
-            <h2>🎯 Resultados:</h2>
-            <div class="results">
-            {% for item in results %}
-                <div class="torrent">
-                    <img src="{{ item.poster }}" alt="Poster" onerror="this.src='/static/default.jpg'">
-                    <div class="info">
-                        <strong>{{ item.name }}</strong><br>
-                        📦 {{ item.size }}<br>
-                        🌱 {{ item.seeders }} | 🔻 {{ item.leechers }}<br>
-                        <a href="{{ item.magnet }}" target="_blank">🧲 Baixar via Magnet</a>
-                    </div>
+        <div id="loading" style="display:none;">⏳ Carregando torrents...</div>
+
+        {% if searched %}
+            {% if results %}
+                <h2>🎯 Resultados:</h2>
+                <div class="list">
+                    {% for item in results %}
+                        <div class="torrent-item">
+                            <strong>{{ item.name }}</strong><br>
+                            📦 {{ item.size }}<br>
+                            🌱 {{ item.seeders }} | 🔻 {{ item.leechers }}<br>
+                            <a href="{{ item.magnet }}" target="_blank" rel="noopener noreferrer">🧲 Baixar via Magnet</a>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-            </div>
-        {% else %}
-            <p>❌ Nenhum resultado encontrado.</p>
+            {% else %}
+                <p>❌ Nenhum resultado encontrado.</p>
+            {% endif %}
         {% endif %}
-    {% endif %}
+    </div>
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', () => {
+            document.getElementById('loading').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
+
+
+
